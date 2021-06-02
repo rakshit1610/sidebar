@@ -1,10 +1,8 @@
-import {Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom';
 import SearchBar from "material-ui-search-bar";
-// import { Row, Col, InputGroup, FormControl } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -37,9 +35,12 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    background: "#043565",
+    background: "#1f3dff",
     display: "flex",
-    justifyContent:"center"
+    justifyContent:"center",
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -58,11 +59,14 @@ const useStyles = makeStyles(theme => ({
     },
   },
   toolbar: {
-    ...theme.mixins.toolbar,
+    
+    [theme.breakpoints.down('xs')]: {
+      ...theme.mixins.toolbar,
+    },
   },
   drawerPaper: {
     width: drawerWidth,
-    background: "#fff",
+    background: "#1f3dff",
     padding:'0',
     boxShadow: "2px 0px 10px rgba(0, 0, 0, 0.1)"
   },
@@ -78,19 +82,32 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
   },
   headingblock: {
-    background: "#fff",
-    // borderLeft: "8px solid #fff",
-    height: "32px",
+    background: "#1f3dff",
+    color: "#fff",
+    marginBottom:"10px",
+    height: "48px",
     display: "flex",
     fontWeight:"700",
     alignItems:"center",
-    fontSize:"14px",
-    // justifyContent:"center",
+    fontSize:"16px",
     alignItems:"center",
     '&:hover': {
-      background: "#DDEEFF",
+      background: "#2266ff",
       cursor: "pointer",
     }
+  },
+  headingblock_ac: {
+    background: "#2266ff",
+    marginBottom:"10px",
+    color: "#fff",
+    // borderLeft: "8px solid #fff",
+    height: "48px",
+    display: "flex",
+    fontWeight:"700",
+    alignItems:"center",
+    fontSize:"16px",
+    // justifyContent:"center",
+    alignItems:"center",
   },
   headings:{
     marginLeft:"16px"
@@ -165,6 +182,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 function ResponsiveDrawer(props) {
+  const [current, setCurrent] = useState("home")
+
+  const currentHandle=(place)=>{
+    console.log(place)
+    setCurrent(place);
+  }
+  
+
   console.log(props);
 
   const classes = useStyles();
@@ -184,68 +209,130 @@ const drawer = (
   <>
   <div style={{height:"12px"}}></div>
 
-<div className={classes.headingblock}>
+  <Link style={{textDecoration:"none"}} to='/'>
+{current==="home"?
+<div className={classes.headingblock_ac} onClick={(place)=>currentHandle("home")}>
 <Typography variant="h7" className={classes.headings}>
-     <i className="fa fa-building"></i>Dashboard
+     <i className="fa fa-building"></i>Home
 </Typography>
 </div>
-<Divider style={{margin:"8px auto",  width:"86%"}} />
-
-<div className={classes.headingblock}>
+:
+<div className={classes.headingblock} onClick={(place)=>currentHandle("home")}>
 <Typography variant="h7" className={classes.headings}>
-     <i className="fa fa-building"></i>Employee Management
+     <i className="fa fa-building"></i>Home
 </Typography>
 </div>
-<Divider style={{margin:"8px auto",  width:"86%"}} />
+}
 
-<div className={classes.headingblock}>
+</Link>
+
+<Link style={{textDecoration:"none"}} to='/test'>
+
+{current==="bots"?
+<div className={classes.headingblock_ac}  onClick={(place)=>currentHandle("bots")}>
 <Typography variant="h7" className={classes.headings}>
-     <i className="fa fa-building"></i>User Management
+     <i className="fa fa-building"></i>Bots
+</Typography>
+</div> :
+<div className={classes.headingblock}  onClick={(place)=>currentHandle("bots")}>
+<Typography variant="h7" className={classes.headings}>
+     <i className="fa fa-building"></i>Bots
 </Typography>
 </div>
-<Divider style={{margin:"8px auto",  width:"86%"}} />
+}
+</Link>
 
-<div className={classes.headingblock}>
+<Link style={{textDecoration:"none"}} to='/test'>
+
+{current==="tools"?
+<div className={classes.headingblock_ac} onClick={(place)=>currentHandle("tools")}>
 <Typography variant="h7" className={classes.headings}>
-     <i className="fa fa-building"></i>Agent Management
+     <i className="fa fa-building"></i>Predictive Tools
 </Typography>
 </div>
-<Divider style={{margin:"8px auto",  width:"86%"}} />
-
-<div className={classes.headingblock}>
+:
+<div className={classes.headingblock} onClick={(place)=>currentHandle("tools")}>
 <Typography variant="h7" className={classes.headings}>
-     <i className="fa fa-building"></i>Reports
+     <i className="fa fa-building"></i>Predictive Tools
 </Typography>
 </div>
-<Divider style={{margin:"8px auto",  width:"86%"}} />
+}
+</Link>
 
-<div className={classes.headingblock}>
+<Link style={{textDecoration:"none"}} to='/test'>
+{current==="recommendation"?
+<div className={classes.headingblock_ac} onClick={(place)=>currentHandle("recommendation")}>
 <Typography variant="h7" className={classes.headings}>
-     <i className="fa fa-building"></i>Reported Information
+     <i className="fa fa-building"></i>Recommendations
+</Typography>
+</div> :
+<div className={classes.headingblock} onClick={(place)=>currentHandle("recommendation")}>
+<Typography variant="h7" className={classes.headings} >
+     <i className="fa fa-building"></i>Recommendations
 </Typography>
 </div>
-<Divider style={{margin:"8px auto",  width:"86%"}} />
+}
+</Link>
 
-<div className={classes.headingblock}>
+<Link style={{textDecoration:"none"}} to='/test'>
+{current==="integrations"?
+<div className={classes.headingblock_ac} onClick={(place)=>currentHandle("integrations")}>
 <Typography variant="h7" className={classes.headings}>
-     <i className="fa fa-building"></i>Wanted
+     <i className="fa fa-building"></i>Integrations
+</Typography>
+</div> :
+<div className={classes.headingblock} onClick={(place)=>currentHandle("integrations")}>
+<Typography variant="h7" className={classes.headings}>
+     <i className="fa fa-building"></i>Integrations
 </Typography>
 </div>
-<Divider style={{margin:"8px auto",  width:"86%"}} />
+}
+</Link>
 
-<div className={classes.headingblock}>
+<Link style={{textDecoration:"none"}} to='/test'>
+{current==="settings"?
+<div className={classes.headingblock_ac} onClick={(place)=>currentHandle("settings")}>
 <Typography variant="h7" className={classes.headings}>
-     <i className="fa fa-building"></i>Pages
+     <i className="fa fa-building"></i>Settings
+</Typography>
+</div>:
+<div className={classes.headingblock} onClick={(place)=>currentHandle("settings")}>
+<Typography variant="h7" className={classes.headings}>
+     <i className="fa fa-building"></i>Settings
 </Typography>
 </div>
-{/* <Divider style={{margin:"10px 0px"}} /> */}
+}
+</Link>
 
+<Link style={{textDecoration:"none"}} to='/test'>
+{current==="more"?
+<div className={classes.headingblock_ac} onClick={(place)=>currentHandle("more")}>
+<Typography variant="h7" className={classes.headings}>
+     <i className="fa fa-building"></i>More Tools
+</Typography>
+</div>:
+<div className={classes.headingblock} onClick={(place)=>currentHandle("more")}>
+<Typography variant="h7" className={classes.headings}>
+     <i className="fa fa-building"></i>More Tools
+</Typography>
+</div>
+}
+</Link>
+
+<Link style={{textDecoration:"none"}} to='/viewprojects'>
+<div className={classes.headingblock} onClick={(place)=>currentHandle("more")}>
+<Typography variant="h7" className={classes.headings}>
+     <i className="fa fa-building"></i>Logout Now
+</Typography>
+</div>
+</Link>
 </>
   );
 
 return (
     <div className={classes.root}>
       <CssBaseline />
+      
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -258,20 +345,11 @@ return (
             <MenuIcon />
           </IconButton>
           <div className={classes.topwrap}>
-          <Typography className={classes.lead} variant="h6" noWrap>
-            Vigilant
-          </Typography>
-          <SearchBar style={{height : "32px",  margin:"auto 20px"}}/>
           <div  style={{display: 'flex'}} >
 
-          <Typography className={classes.language} variant="h6" noWrap>
-            English <ExpandMoreIcon/>
-          </Typography>
+          <h3>Sttabot</h3>
 
-          {/* <Dropdown> */}
-                    <img style={{height : "38px", borderRadius: "50%", width: "40px"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyTBIOoSFMx3dCEPOnRAWLFmbJYa_eggwSww&usqp=CAU" />
-                   
-                  {/* </Dropdown> */}
+          
           </div>
           </div>
         </Toolbar>
@@ -293,7 +371,7 @@ return (
             }}
           >
             <IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
-              <CloseIcon style={{color:"black"}}/>
+              <CloseIcon style={{color:"white"}}/>
             </IconButton>
             {drawer}
           </Drawer>
@@ -306,7 +384,7 @@ return (
               paper: classes.drawerPaper,
             }}
           >
-            <div className={classes.toolbar} style={{ padding: '0', margin:'0'}}/>
+            <div style={{ height:"20px"}}/>
             {drawer}
           </Drawer>  
         </Hidden>
